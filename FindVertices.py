@@ -23,11 +23,11 @@ def isVertices(A,m,n):
         vt = hullfordim1(A)
     else: #找哪一列是頂點
         vt = ConvexHull(A).vertices
-    print(vt)
+    #print(vt)
     if n in vt:#確定n是否為頂點
         IsInConv=False#是,就不在內
-        print("p為頂點")
+        print("提示: p為頂點")
     else:
         IsInConv=True#否,就在內
-        print("p不為頂點")
+        print("提示: p不為頂點")
     return IsInConv

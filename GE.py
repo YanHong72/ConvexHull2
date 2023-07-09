@@ -19,15 +19,16 @@ def GE(A):
         B[[curR, maxRow]] = B[[maxRow, curR]]
         #A[[curR,maxRow],curC:] = A[[maxRow,curC],curC:]
         #A[[curR,maxRow],curC:] = A[[curC,maxRow],curC:]
-        #print('c',A)
+        #print('c',B)
         if(B[curR,curC]!=0):
+            B[curR,curC:]=((1/B[curR,curC])*B[curR,curC:])
             for k in range(curR+1,rw):
-                c = -(B[k,curC])/B[curR,curC]
-                B[k,curC:]=B[k,curC:]+c*B[curR,curC:]
-            B[curR,curC:]=(1/B[curR,curC])*B[curR,curC:]
+                #c = Fraction( -(B[k,curC])/B[curR,curC])
+                B[k,curC:]=(B[k,curC:]-(B[k,curC])*B[curR,curC:])
+            #B[curR,curC:]=((1/B[curR,curC])*B[curR,curC:])
             curR+=1
         curC+=1
-        #print('d',curC,A)
+        #print('d',curC,B)
     return B
 
 def GE_solve(A,b):
