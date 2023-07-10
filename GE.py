@@ -29,6 +29,10 @@ def GE(A):
             curR+=1
         curC+=1
         #print('d',curC,B)
+        '''for i in range(rw):
+            for j in range(cl):
+                print(B[i,j],end=" ")
+        print()'''
     return B
 
 def GE_solve(A,b):

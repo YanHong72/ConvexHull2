@@ -7,9 +7,9 @@ from GE import *
 from FindVertices import *
 
 ### 確立圖形所在維度
-m = int(input("維度"))
+m = int(input("請輸入所在維度"))
 #給定多少點
-n = int(input("幾筆資料"))
+n = int(input("請輸入幾筆資料"))
 IsInConv = False
 #stop 0
 #用矩陣存點
@@ -51,27 +51,35 @@ if not IsInConv:
     print("提示: p不是其中一點,開始求超平面維度")
     #step 2 確定超平面維度
     #1)以p為基準,把所有點拉到原點上
-    for i in range(n):
+    for i in range(n):# 先把其他點減p 
         for j in range(m):
             A[i,j] = A[i,j] - A[n,j]
-    for j in range(m):
+    for j in range(m):# 再把p減p(為零列) 
         A[n,j] = 0
     #print("A",A)
     #2)找出Row(A)的basis
     #用高斯消去法
-    R = np.copy(A)
+    R = np.copy(A) #NOTE: 不能用R=A, 因為R動A就會同步動
     R = GE(R)
     #print(A)
-    print(R)
+    #print(R)
+    '''for i in range(n):
+        for j in range(m):
+            print(R[i,j],end=" ")
+        print()'''
     #刪除零列,剩下的列為basis
     for i in range(n,-1,-1):#把0 row 刪除
         isnotZero = False
         for j in range(m):
-            if R[i,j]!=Fraction(0):
+            #如果第i列有一項為非零數，代表第i列為非零列，停止尋找
+            #NOTE: limit_denominator可以找到浮點數R[i,j]的近似值, 目的是為了減少誤差
+            if Fraction(R[i,j]).limit_denominator()!=Fraction(0):
                 isnotZero = True
                 break
+        #如果第i列為非零列，停止找下一列
         if isnotZero:
             break
+        #如果第i列為零列，刪除該列
         R = np.delete(R, i, 0)
 
     #3)求rank
@@ -80,8 +88,8 @@ if not IsInConv:
 
     if Rank == m:    #a)如果超平面維度相同, 開始用Quickhull找頂點
         print("提示: 維度剛好, 直接求頂點")
-        IsInConv = isVertices(A,m,n)
-    else:
+        IsInConv = isVertices(A)
+    else:   #b)如果超平面維度太小, 先換成座標, 再用Quickhull求座標的頂點
         print("提示: 維度不足, 換成座標")
         #print("A",A)
         R = R.T
@@ -93,7 +101,7 @@ if not IsInConv:
             coordinate [i ,:]= sol
         # 求 座 標 的 頂 點
         #print(coordinate)
-        IsInConv = isVertices(coordinate,Rank,n)
+        IsInConv = isVertices(coordinate)
 
 
 if IsInConv:
