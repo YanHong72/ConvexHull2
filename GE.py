@@ -21,12 +21,20 @@ def GE(A):
         #A[[curR,maxRow],curC:] = A[[curC,maxRow],curC:]
         #print('c',B)
         if(B[curR,curC]!=0):
-            B[curR,curC:]=((1/B[curR,curC])*B[curR,curC:])
-            for k in range(curR+1,rw):
+            #B[curR,curC:]=((1/B[curR,curC])*B[curR,curC:])
+            for j in range(curC+1,cl):
+                B[curR,j] = (1/B[curR,curC])*B[curR,j]
+            B[curR,curC] = 1
+            for i in range(curR+1,rw):
+                for j in range(curC+1,cl):
+                    B[i,j] =Fraction( B[i,j]-B[i,curC]*B[curR,j]).limit_denominator()
+                B[i,curC] = 0
+            curR+=1  
+            '''for k in range(curR+1,rw):
                 #c = Fraction( -(B[k,curC])/B[curR,curC])
                 B[k,curC:]=(B[k,curC:]-(B[k,curC])*B[curR,curC:])
             #B[curR,curC:]=((1/B[curR,curC])*B[curR,curC:])
-            curR+=1
+            curR+=1'''
         curC+=1
         #print('d',curC,B)
         '''for i in range(rw):
