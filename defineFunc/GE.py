@@ -9,33 +9,33 @@ def GE(A):
     curR = 0
     curC = 0
     while(curR<rw and curC<cl):
-        #選一個第curC列中，該列為非零數的行
-        #為了減少接下來的誤差，我們會挑第curC列中的絕對值的最大值
+        #選一個第curC行中，該列為非零數的列
+        #為了減少接下來的誤差，我們會挑第curC行中的絕對值的最大值
         maxEc = abs(B[curR,curC])
         maxRow = curR
         for k in range(curR+1,rw):
             if abs(B[k,curC])> maxEc:
                 maxEc = abs(B[k,curC])
                 maxRow = k
-        #把選到的那一行(第maxRow行)與第curR行互換
+        #把選到的那一列(第maxRow行)與第curR列互換
         B[[curR, maxRow]] = B[[maxRow, curR]]
         #print('c',B)
-        #如果找不到非零(B[curR,curC]!=0),就換到下一列繼續動作
+        #如果找不到非零(B[curR,curC]!=0),就換到下一行繼續動作
         if(B[curR,curC]!=0):
-            #把第curR行從左算的第一個非零數變成1(該位置稱leading)
+            #把第curR列從左算的第一個非零數變成1(該位置稱leading)
             for j in range(curC+1,cl):#每一項除leading
                 B[curR,j] = (1/B[curR,curC])*B[curR,j]
-            B[curR,curC] = 1#leading變成1(自己除自己)
-            #把curR行curC列下面的數字都變成0
+            B[curR,curC] = 1 #leading變成1(自己除自己)
+            #把curR列curC行下面的數字都變成0
             for i in range(curR+1,rw):
-                #第i行 = -B[i,curC]*第curR行+第i行
+                #第i行 = -B[i,curC]*第curR列+第i列
                 for j in range(curC+1,cl):
                     #為了減少誤差, 使用Fraction().limit_denominator()讓數字變模糊
                     B[i,j] =Fraction( B[i,j]-B[i,curC]*B[curR,j]).limit_denominator()
                 B[i,curC] = 0
-            #換到下一行繼續動作
+            #換到下一列繼續動作
             curR+=1  
-        #換到下一列繼續動作
+        #換到下一行繼續動作
         curC+=1
     return B
 

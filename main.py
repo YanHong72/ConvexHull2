@@ -8,7 +8,7 @@ from defineFunc.Vertices import *
 
 if __name__ =='__main__':
     ### 確立圖形所在維度
-    m = int(input("請輸入所在維度m(輸入型別: 整數, 輸入範圍: m>0)\n "))
+    m = int(input("請輸入所在維度m(輸入型別: 整數, 輸入範圍: m>0)\n"))
     #給定多少點
     n = int(input("請輸入資料數量n(輸入型別: 整數, 輸入範圍: n>0)\n"))
     IsInConv = False
@@ -23,6 +23,7 @@ if __name__ =='__main__':
     #輸入x1,x2,...,xn
     print("請輸入x_1,x_2,...,x_n")
     print("輸入型別: 整數,浮點數,或分數")
+    print("(例: 14, 3.14, 1/3)")
     print("輸入範圍:-6.7e+55 < x_ij < 6.7e+55")
     print("Note:兩點的距離盡量不要極端遠或非常靠緊，\n不然scipy.spatial.ConvexHull會出現錯誤")
     for i in range(0,n):
@@ -95,12 +96,12 @@ if __name__ =='__main__':
 
         #3)求rank
         Rank = R.shape[0]
-        print("提示: 超平面維度: ",Rank)
+        print("提示: 仿設空間維度: ",Rank)
 
-        if Rank == m:    #a)如果超平面維度相同, 開始用Quickhull找頂點
+        if Rank == m:    #a)如果仿設空間維度相同, 開始用ConvexHull找頂點, 最後判斷p是否為頂點
             print("提示: 維度剛好, 直接求頂點")
             IsInConv = UseVerticesToCheck(A)
-        elif Rank < m:   #b)如果超平面維度太小, 先換成座標, 再用Quickhull求座標的頂點
+        elif Rank < m:   #b)如果仿設空間維度太小, 先換成座標, 再用ConvexHull求座標的頂點, 最後判斷p是否為頂點
             print("提示: 維度不足, 換成座標")
             #print("A",A)
             R = R.T

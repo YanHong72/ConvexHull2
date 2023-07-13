@@ -21,16 +21,14 @@ def hullfordim1(A):
     return [indexOfMin,indexOfMax,]
 def UseVerticesToCheck(A): 
     n,m = A.shape  
-    IsInConv = False
     if m == 1: #特殊情況:如果m=1,只要找最大最小值的位置即可
         vt = hullfordim1(A)
     else: #找哪一列是頂點
         vt = ConvexHull(A).vertices
     #print(vt)
     if n-1 in vt:#確定n是否為頂點
-        IsInConv=False #是, p為頂點,p就不在內
         print("提示: p為頂點")
+        return False
     else:
-        IsInConv=True #否, p為不為頂點,p就在內
         print("提示: p不為頂點")
-    return IsInConv
+        return True
