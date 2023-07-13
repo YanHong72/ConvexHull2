@@ -3,8 +3,8 @@ from scipy.spatial import ConvexHull
 from fractions import Fraction
 np.set_printoptions(formatter = {'all':lambda x : str(Fraction(x).limit_denominator())})
 #自訂def
-from GE import *
-from FindVertices import *
+from defineFunc.GE import *
+from defineFunc.Vertices import *
 
 if __name__ =='__main__':
     ### 確立圖形所在維度
@@ -17,23 +17,27 @@ if __name__ =='__main__':
     #第1~n-1行分別為x_1,...,x_n
     #第n行為p
 
+    #用矩陣存點
     #確立A矩陣
     A = np.mat(np.zeros([n+1,m]))
     #輸入x1,x2,...,xn
     print("請輸入x_1,x_2,...,x_n")
     print("輸入型別: 整數,浮點數,或分數")
     print("輸入範圍:-6.7e+55 < x_ij < 6.7e+55")
-    print("兩點距離:d(x,y)>1e-6")
+    print("Note:兩點的距離盡量不要極端遠或非常靠緊，\n不然scipy.spatial.ConvexHull會出現錯誤")
     for i in range(0,n):
         for j in range(0,m):
             A[i,j] = Fraction(input(f'x{i} {j}th element = '))
             #print(A[i,j])
         print()
     ##輸入你要判斷的點
+    print("請輸入你要判斷的點p")
+    print("輸入型別: 整數,浮點數,或分數")
+    print("輸入範圍:-6.7e+55 < x_ij < 6.7e+55")
     for i in range(0,m):
         A[n,i]=(Fraction(input(f'p {i}th element = ')))
     #印出A    
-    print("A矩陣\n",A)
+    #print("A矩陣\n",A)
 
 
     #step 1.判斷 p 是否為 x_i
@@ -87,7 +91,7 @@ if __name__ =='__main__':
                 break
             #如果第i列為零列，刪除該列
             R = np.delete(R, i, 0)
-        print("R\n",R)
+        #print("R\n",R)
 
         #3)求rank
         Rank = R.shape[0]
@@ -95,7 +99,7 @@ if __name__ =='__main__':
 
         if Rank == m:    #a)如果超平面維度相同, 開始用Quickhull找頂點
             print("提示: 維度剛好, 直接求頂點")
-            IsInConv = isVertices(A)
+            IsInConv = UseVerticesToCheck(A)
         elif Rank < m:   #b)如果超平面維度太小, 先換成座標, 再用Quickhull求座標的頂點
             print("提示: 維度不足, 換成座標")
             #print("A",A)
@@ -108,11 +112,13 @@ if __name__ =='__main__':
                 coordinate [i ,:]= sol
             # 求 座 標 的 頂 點
             #print(coordinate)
-            IsInConv = isVertices(coordinate)
+            IsInConv = UseVerticesToCheck(coordinate)
         else:
             raise ValueError('高斯消去法計算錯誤')
 
+    print()
     if IsInConv:
-        print("p在convex hull裡面")
+        print("結果: p在convex hull裡面")
     else:
-        print("p在convex hull外面")
+        print("結果:p在convex hull外面")
+    input("----按Enter結束----\n")
