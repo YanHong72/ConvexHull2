@@ -25,7 +25,7 @@ if __name__ =='__main__':
     print("輸入型別: 整數,浮點數,或分數")
     print("(例: 14, 3.14, 1/3)")
     print("輸入範圍:-6.7e+55 < x_ij < 6.7e+55")
-    print("Note:兩點的距離盡量不要極端遠或非常靠緊，\n不然scipy.spatial.ConvexHull會出現錯誤")
+    print("Note:兩點的距離盡量不要極端遠或極端近，\n不然scipy.spatial.ConvexHull會出現錯誤")
     for i in range(0,n):
         for j in range(0,m):
             A[i,j] = Fraction(input(f'x{i} {j}th element = '))
