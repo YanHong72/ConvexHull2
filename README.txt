@@ -13,4 +13,4 @@
 以in_5_1.txt為例:
 input: main.exe < in\in_5_1.txt 
 
-output: 結果: p在convex hull裡面
+output: 結果: p在convex hull的裡面
